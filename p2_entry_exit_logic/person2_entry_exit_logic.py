@@ -49,7 +49,7 @@ def on_message(client, userdata, msg):
             spot_id = payload.get("id")
             status = payload.get("status")
             
-            if status == "OCCUPIED" and "ENTRY" in spot_id.upper():
+            if status == "OCCUPIED" and spot_id == "A01": in spot_id.upper():
                 print("Vehicle at ENTRY!")
                 handle_entry_request(client)
             elif status == "FREE" and "EXIT" in spot_id.upper():
