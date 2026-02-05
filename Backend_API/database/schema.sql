@@ -2,6 +2,9 @@ CREATE TABLE IF NOT EXISTS spots (
   id         TEXT PRIMARY KEY,
   label      TEXT,
   status     TEXT NOT NULL CHECK (status IN ('FREE','OCCUPIED')),
+  distance   REAL,
+  threshold  REAL,
+  debounce   INTEGER,
   updated_at TEXT NOT NULL
 );
 
