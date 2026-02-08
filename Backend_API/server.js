@@ -221,15 +221,18 @@ function setBarrierState(id, state) {
   return { id, state, updated_at: ts };
 }
 
-app.post("/barrier/:id/open", (req, res) => {
-  const out = setBarrierState(req.params.id, "OPENED");
+app.put("/barrier/:id/state", (req, res) => {
+  const { state } = req.body || {};
+  const allowed = ["OPENING", "OPENED", "CLOSING", "CLOSED"];
+
+  if (!allowed.includes(state)) {
+    return res.status(400).json({ error: "INVALID_STATE", allowed });
+  }
+
+  const out = setBarrierState(req.params.id, state); // your existing upsert fn
   res.json({ ok: true, ...out });
 });
 
-app.post("/barrier/:id/close", (req, res) => {
-  const out = setBarrierState(req.params.id, "CLOSED");
-  res.json({ ok: true, ...out });
-});
 
 // --- start ---
 const PORT = process.env.PORT || 3000;

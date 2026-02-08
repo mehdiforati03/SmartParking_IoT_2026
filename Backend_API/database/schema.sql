@@ -10,8 +10,9 @@ CREATE TABLE IF NOT EXISTS spots (
 
 CREATE TABLE IF NOT EXISTS barriers (
   id         TEXT PRIMARY KEY,
-  state      TEXT NOT NULL CHECK (state IN ('OPENED','CLOSED')),
+  state      TEXT NOT NULL CHECK (state IN ('OPENING','OPENED','CLOSING','CLOSED')),
   updated_at TEXT NOT NULL
 );
+
 
 CREATE INDEX IF NOT EXISTS idx_spots_status ON spots(status);
