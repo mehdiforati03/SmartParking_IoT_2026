@@ -1,8 +1,12 @@
 const express = require("express");
 const Database = require("better-sqlite3");
 const fs = require("fs");
-
+const cors = require("cors");
 const app = express();
+
+app.use(cors({
+    origin: "http://127.0.0.1:5500"  
+}));
 app.use(express.json());
 
 // cree base donnee
@@ -115,7 +119,7 @@ app.get("/places/:id/status", (req, res) => {
   res.json(row);
 });
 
-// change status d'une place
+// change status d une place
 // + accepte aussi (optionnel) distance/threshold/debounce pour mise a jour depuis JSON
 app.put("/places/:id/status", (req, res) => {
   const { status, distance, threshold, debounce } = req.body || {};
@@ -195,6 +199,15 @@ app.get("/parking/state", (req, res) => {
     free: r.free || 0,
     occupied: r.occupied || 0,
   });
+});
+
+// delete functionality for places
+app.delete("/places/:id", (req, res) => {
+  const info = db.prepare("DELETE FROM spots WHERE id = ?").run(req.params.id);
+  if (info.changes === 0) {
+    return res.status(404).json({ error: "NOT_FOUND" });
+  }
+  res.json({ ok: true });
 });
 
 // -------------
