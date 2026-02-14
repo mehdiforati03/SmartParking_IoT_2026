@@ -19,4 +19,4 @@ Thumbs.db
 #backend resources
 Backend_API/node_modules
 Backend_API/parking.db
-node_modules
+node_modules/
